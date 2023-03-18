@@ -93,6 +93,8 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+background-repeat: no-repeat;
+height: 100vh;
 }
 
 a {
@@ -104,4 +106,24 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+._nav{
+
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    font-weight: 700;
+    font-size: large;
+    list-style: none;
+}
+
+.item{
+margin-right: 27px;
+color: #0000005b;
+transition: all .3s ease-in-out;
+}
+.item:hover{
+color: black;
+text-shadow: 0px 3px 5px black;
 }

@@ -1,4 +1,4 @@
 export default function (){
 
-return <dev>Hello world</dev>
+return <div>Hello world</div>
 }

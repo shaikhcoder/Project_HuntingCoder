@@ -2,16 +2,10 @@ import styles from '@/styles/Home.module.css'
 import Head from 'next/head'
 import Link from 'next/link'
 import { Inter } from 'next/font/google'
+import data from "../data/data.json"
 const inter = Inter({ subsets: ['latin'] })
 export default function () {
-    const data = [{ name: "Javascript", link: "/blogpost/Javascript", contant: "Discover and deploy boilerplate example Next.js&nbsp;projects." },
-    { name: "Python", link: "/blogpost/Python", contant: "Discover and deploy boilerplate example Next.js&nbsp;projects." },
-    { name: "Nextjs", link: "/blogpost/nextjs", contant: "Discover and deploy boilerplate example Next.js&nbsp;projects." },
-    { name: "Django", link: "/blogpost/django", contant: "Discover and deploy boilerplate example Next.js&nbsp;projects." },
-    { name: "Nodejs", link: "/blogpost/nodejs", contant: "Discover and deploy boilerplate example Next.js&nbsp;projects." },
-    { name: "Flask", link: "/blogpost/flask", contant: "Discover and deploy boilerplate example Next.js&nbsp;projects." },
-    { name: "Java", link: "/blogpost/java", contant: "Discover and deploy boilerplate example Next.js&nbsp;projects." },
-    { name: "Express.js", link: "/blogpost/expressjs", contant: "Discover and deploy boilerplate example Next.js&nbsp;projects." }]
+
     return <>
         <Head>
             <title>Create Next App</title>
@@ -35,13 +29,13 @@ color: #262424;}
 
         <main className={styles.main}>
             <div className={styles.grid}>
-                {data.map((value) => {
+                {data.map((value,index) => {
 
 
                     return <Link
                         href={value.link}
                         className={styles.card}
-
+                        key={index}
                     >
                         <h2 className={inter.className}>
                             {value.name} <span>-&gt;</span>

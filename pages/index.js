@@ -39,7 +39,7 @@ color: #262424;}
 
         <div className={styles.grid}>
           <Link
-            href="/blogpost/Javascript"
+            href="/blogpost/javascript"
             className={styles.card}
            
           >

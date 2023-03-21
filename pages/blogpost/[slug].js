@@ -1,14 +1,23 @@
 import { useRouter } from "next/router";
-import data from "../../data/data.json"
+import { useEffect, useState } from "react";
+import axios from "axios";
 export default function (){
 
-
+const [blogData, setData] = useState({})
+const [err, seterr] = useState()
 const router = useRouter()
 const {slug} =router.query
-const datas  =data.filter((value)=>{
 
 
-return slug.toLowerCase() === value.name.toLowerCase()})
+useEffect(()=>{
+if (slug !== undefined){
+let data =axios.get(`http://localhost:3000/api/getblog?slug=${slug}`).then((value)=>{
+
+setData({...value.data})
+})}
+
+
+},[])
 
 return <>
 
@@ -27,8 +36,13 @@ h1{
 font-size:40px;
 color: #262424;
 }
-._p{
-color: #262424;}
+p{
+color: #262424;
+     max-width: 75vw;
+    text-align: justify;
+}
+
+}
 
 
 `}
@@ -36,7 +50,7 @@ color: #262424;}
 
 <div>
 
-<h1>{datas[0].name}</h1>
-<p>{datas[0].contant}</p>
+<h1>{blogData.name}</h1>
+<p>{blogData.contant}</p>
 
 </div></>}

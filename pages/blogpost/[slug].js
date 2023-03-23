@@ -1,23 +1,13 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+// import { useRouter } from "next/router"; it use for get routes like slugs 
+import { useState } from "react";
 import axios from "axios";
-export default function (){
-
-const [blogData, setData] = useState({})
-const [err, seterr] = useState()
-const router = useRouter()
-const {slug} =router.query
+export default function (props){
+const [blogData, setData] = useState(props.alldata)
 
 
-useEffect(()=>{
-if (slug !== undefined){
-let data =axios.get(`http://localhost:3000/api/getblog?slug=${slug}`).then((value)=>{
-
-setData({...value.data})
-})}
 
 
-},[router.isReady])
+
 
 return <>
 
@@ -54,3 +44,13 @@ color: #262424;
 <p>{blogData.contant}</p>
 
 </div></>}
+
+export async function getServerSideProps(context) {
+const {slug} = context.query
+return axios.get(`http://localhost:3000/api/getblog?slug=${slug}`).then((value)=>{
+return {
+        props: {alldata:{...value.data}}}
+
+})
+    
+}

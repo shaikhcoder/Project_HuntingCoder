@@ -5,16 +5,12 @@ import { Inter } from 'next/font/google'
 import { useEffect, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
-export default function () {
-const [blogs, setBlogs] = useState([])
-useEffect(()=>{
-fetch("http://localhost:3000/api/blogpost").then((a)=>{
+function blog( props) {
 
-a.json().then((data)=>{
-setBlogs([...data])
-})
-})
-},[])
+    const [blogs, setBlogs] = useState(props.alldata)
+    // useEffect(() => {
+       
+    // }, [])
 
     return <>
         <Head>
@@ -39,7 +35,7 @@ color: #262424;}
 
         <main className={styles.main}>
             <div className={styles.grid}>
-                {blogs.map((value,index) => {
+                {blogs.map((value, index) => {
 
 
                     return <Link
@@ -51,7 +47,7 @@ color: #262424;}
                             {value.name} <span>-&gt;</span>
                         </h2>
                         <p className={inter.className}>
-                            {value.contant.slice(0, 30)+"..."}
+                            {value.contant.slice(0, 30) + "..."}
                         </p>
                     </Link>
                 })}
@@ -62,3 +58,13 @@ color: #262424;}
         </main>
     </>
 }
+
+export async function getServerSideProps(context) {
+let mydata = await fetch("http://localhost:3000/api/blogpost")
+let alldata = await mydata.json()
+    return {
+        props: {alldata}}
+}
+
+
+export default blog

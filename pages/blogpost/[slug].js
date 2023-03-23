@@ -17,7 +17,7 @@ setData({...value.data})
 })}
 
 
-},[])
+},[router.isReady])
 
 return <>
 

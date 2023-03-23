@@ -19,10 +19,10 @@ export default function Home() {
 {`
 h1{
 font-size:40px;
-color: #262424;
+
 }
 ._p{
-color: #262424;}
+}
 
 
 `}

@@ -1,18 +1,20 @@
 // import { useRouter } from "next/router"; it use for get routes like slugs 
-import { useState } from "react";
-import axios from "axios";
-export default function (props){
-const [blogData, setData] = useState(props.alldata)
+import * as fs from 'fs'
+import { useState } from 'react'
 
 
+export default function Slug (props) {
 
+function createMarkup(s){
 
+return {__html:s}
+}
+        const [Blog, setBlog] = useState(props.alldata)
 
+        return <>
 
-return <>
-
-        <style jsx>
-            {`
+                <style jsx>
+                        {`
 div{
 
     display: flex;
@@ -32,25 +34,51 @@ color: #262424;
     text-align: justify;
 }
 
-}
-
 
 `}
-        </style>
+                </style>
 
-<div>
+                <div>
 
-<h1>{blogData.name}</h1>
-<p>{blogData.contant}</p>
+                        <h1>{Blog && Blog.name}</h1>
+                        {Blog && <p dangerouslySetInnerHTML={createMarkup(Blog.contant)}></p>}
 
-</div></>}
-
-export async function getServerSideProps(context) {
-const {slug} = context.query
-return axios.get(`http://localhost:3000/api/getblog?slug=${slug}`).then((value)=>{
-return {
-        props: {alldata:{...value.data}}}
-
-})
-    
+                </div></>
 }
+
+export async function getStaticPaths() {
+        let arr = []
+        let data = await fs.promises.readdir(`data`)
+        data.forEach((value) => {
+
+                arr.push({ params: { slug: value.split('.json')[0] } }) 
+        })
+
+        return {
+                paths: [...arr], fallback: true
+
+        }
+
+}
+
+
+// return axios.get(`http://localhost:3000/api/getblog?slug=${slug}`).then((value)=>{
+// return {
+//         props: {alldata:{...value.data}}}
+
+// }) for SSR
+
+export async function getStaticProps(context) {
+        const { slug } = context.params;
+let alldata = await fs.promises.readFile(`data/${slug}.json`,'utf-8')
+
+        return {
+                props: { alldata: JSON.parse(alldata) }
+        }
+
+
+
+
+}
+
+

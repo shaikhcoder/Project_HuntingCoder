@@ -3,9 +3,9 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { Inter } from 'next/font/google'
 import { useEffect, useState } from 'react'
-
+import * as fs from 'fs'
 const inter = Inter({ subsets: ['latin'] })
-function blog( props) {
+function Blog( props) {
 
     const [blogs, setBlogs] = useState(props.alldata)
     // useEffect(() => {
@@ -58,13 +58,24 @@ color: #262424;}
         </main>
     </>
 }
+// let mydata = await fetch("http://localhost:3000/api/blogpost")
+// let alldata = await mydata.json() for SSR
 
-export async function getServerSideProps(context) {
-let mydata = await fetch("http://localhost:3000/api/blogpost")
-let alldata = await mydata.json()
+
+// now for SSG
+export async function getStaticProps(context) {
+let data = await fs.promises.readdir(`data`)
+let fil;
+let alldata = []
+
+for (let i = 0; i < data.length ; i++){
+fil = await fs.promises.readFile(`data/${data[i]}`)
+alldata.push(JSON.parse(fil))
+
+}
     return {
         props: {alldata}}
 }
 
 
-export default blog
+export default Blog
